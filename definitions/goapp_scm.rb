@@ -130,16 +130,16 @@ define :goapp_scm do
           # We're going to log this since it's a common point of failure
           script = <<-EOH
             export PATH=$PATH:#{node['go']['install_dir']}/go/bin
-            GOPATH=#{release_path}/.go go get github.com/kr/godep
-            GOPATH=#{release_path}/.go .go/bin/godep get
-            GOPATH=#{release_path}/.go .go/bin/godep go build -o ./goapp_#{application}_server #{gofile}
+            GOPATH=#{release_path}/.go/ go get github.com/kr/godep
+            GOPATH=#{release_path}/.go/ #{release_path}/.go/bin/godep get
+            GOPATH=#{release_path}/.go/:#{release_path}/.go/src #{release_path}/.go/bin/godep go build -o #{release_path}/bin/goapp_#{application}_server #{gofile}
           EOH
           
           Chef::Log.info("Compiling goapp via: `#{script}`")
 
           # we're going to buid using godep
           bash "go-get-and-build-goapp-server" do
-            cwd release_path
+            cwd "#{release_path}/src"
             code script
             action :run
           end

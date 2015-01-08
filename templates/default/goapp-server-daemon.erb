@@ -4,7 +4,7 @@ case $1 in
   start)
      echo $$ > <%= @pid_file %>;
      cd <%= @release_path %>;
-     exec 2>&1 <%= @release_path %>/goapp_<%= @application_name %>_server -c <%= @config_file %> 1>><%= @output_file %>
+     exec 2>&1 <%= @release_path %>/bin/goapp_<%= @application_name %>_server -c <%= @config_file %> -custom_config_path=<%= @custom_config_path %>  1>><%= @output_file %>
      ;;
    stop)
      kill `cat <%= @pid_file %>` ;;

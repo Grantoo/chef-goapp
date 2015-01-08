@@ -9,6 +9,7 @@ define :goapp_deploy_config_and_monit do
   # monit_conf_dir
   # group
   # user
+  # custom_config_path
 
   service 'monit' do
     action :nothing
@@ -38,7 +39,8 @@ define :goapp_deploy_config_and_monit do
       :release_path     => "#{params[:deploy_to]}/current",
       :application_name => params[:application_name],
       :config_file      => params[:goapp_application_settings][:config_file],
-      :output_file      => params[:goapp_application_settings][:output_file]
+      :output_file      => params[:goapp_application_settings][:output_file],
+      :custom_config_path => "#{params[:deploy_to]}/current/#{params[:custom_config_path]}"
     )
     
     only_if do
