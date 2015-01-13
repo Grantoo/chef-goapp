@@ -35,6 +35,7 @@ define :goapp_deploy_config_and_monit do
     group    params[:group]
     mode     '0751'
     variables(
+      :deploy_to        => params[:deploy_to],
       :pid_file         => params[:goapp_application_settings][:pid_file],
       :release_path     => "#{params[:deploy_to]}/current",
       :application_name => params[:application_name],
