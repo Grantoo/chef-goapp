@@ -1,7 +1,5 @@
-check host goapp_<%= @application_name %>_server with address 127.0.0.1
+check process goapp_<%= @application_name %>_server
+  with pidfile "<%= @deploy_to %>/shared/pids/goapp.pid"
   start program = "<%= @release_path %>/goapp-<%= @application_name %>-server-daemon start" as uid deploy and gid www-data
   stop program  = "<%= @release_path %>/goapp-<%= @application_name %>-server-daemon stop" as uid deploy and gid www-data
-  if failed port <%= @port %> protocol HTTP
-    request <%= @test_url %>
-    with timeout 10 seconds
-    then restart
+

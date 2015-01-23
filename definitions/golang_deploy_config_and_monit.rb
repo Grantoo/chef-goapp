@@ -55,6 +55,7 @@ define :goapp_deploy_config_and_monit do
     group   'root'
     mode    '0644'
     variables(
+      :deploy_to        => params[:deploy_to],
       :application_name => params[:application_name],
       :release_path     => "#{params[:deploy_to]}/current",
       :port             => params[:env_vars]['PORT'],
