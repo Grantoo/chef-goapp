@@ -15,7 +15,7 @@ start() {
     pidfile=$(printf "$PIDFILE")
     setcap 'cap_net_bind_service=+ep' <%= @release_path %>/bin/$NAME
 
-    options="-c <%= @config_file %> -custom_config_path=<%= @custom_config_path %>"
+    options="-c <%= @config_file %> -custom_config_path=<%= @custom_config_path %> -logfile=<%= @deploy_to %>/shared/log/<%= @application_name %>.log"
     if start-stop-daemon --start --background --chdir <%= @release_path %> --chuid $USER:$GROUP --make-pidfile --pidfile $pidfile --exec <%= @release_path %>/bin/$NAME -- $options
     then
         log_daemon_msg "Starting Go Application: $NAME ..."
