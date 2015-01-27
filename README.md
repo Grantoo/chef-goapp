@@ -10,9 +10,8 @@ Dependencies
 -----------------------------
 This cookbook depends on the following:
 
-- `deploy`: the base amazon deploy recipe at https://github.com/aws/opsworks-cookbooks/tree/master/deploy
-- `golang`: the installation of go recipe at https://github.com/crowdmob/chef-golang
-- `monit`: the monit package to ensure your server is running, and tries to restart it if not at https://github.com/crowdmob/chef-monit
+- `golang`: the installation of go recipe at https://github.com/Grantoo/chef-golang
+- `monit`: the monit package to ensure your server is running, and tries to restart it if not at https://github.com/Grantoo/chef-monit
 
 Additionally, you must use `Godep` for storing code dependencies.
 
@@ -34,22 +33,34 @@ To deploy your app, you'll have to make sure 2 of the recipes in this cookbook a
 
 Databag Setup
 -----------------------------
-This cookbook relies on a databag, which you should set in Amazon OpsWorks as your Stack's "Custom Chef JSON", with the following parameters:
+This cookbook relies on a databag which you should set in Amazon OpsWorks as your Stack's "Custom Chef JSON".
+
+It expects that you are using the golang chef recipe listed above. So, the following example shows the
+data bag that selects a version of Go. This is a fairly minimal set of parameters to be successful in deploying
+a go server (web app for example):
 
 ```json
 {
+  "go": {
+    "version": "1.4"
+  },
   "deploy": {
-    "YOUR_APPLICATION_NAME": {
+    "YOUR_APPLICATION_SHORT_NAME": {
       "application_type": "goapp",
-      "gofile": "my_app.go",
+      "goapp": "ApiV2Server",
+      "gofile": "main.go",
       "test_url": "/",
+      "auto_go_get_on_deploy": true,
+      "auto_go_build_on_deploy": true,
       "env": {
-        "PORT": 80,
+        "APP_ENV": "production",
+        "PORT": 80
         "or_whatever": "you want in YOUR_APPLICATION_NAME.properties"
       },
+      "custom_config_path":"conf/staging.config.json"
       "config": ["other"]
     }
-  },
+  }
   "other": {
     "option1": "value1"
   }
