@@ -48,6 +48,14 @@ define :goapp_deploy_config_and_monit do
       File.exists?("#{params[:deploy_to]}/current")
     end
   end
+
+  bash "set up go application to use ports 80 and 443" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+      setcap 'cap_net_bind_service=+ep' #{params[:deploy_to]}/current/bin/goapp_#{params[:application_name]}_server
+    EOH
+  end
   
   template "#{params[:monit_conf_dir]}/goapp_#{params[:application_name]}_server.monitrc" do
     source  'goapp_server.monitrc.erb'
