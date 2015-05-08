@@ -1,6 +1,7 @@
 
 node[:deploy].each do |application, _|
-  if node[:deploy][application][:application_type] != 'goapp' || ( node[:deploy][application][:layers] && ( node[:deploy][application][:layers] & node[:opsworks][:instance][:layers] ).count == 0 )
+  if node[:deploy][application][:application_type] != 'goapp' ||
+      ( node[:deploy][application][:layers] && node[:opsworks][:instance][:layers].count == 0 )
     Chef::Log.debug("Skipping goapp::deploy for application #{application} as it is not set as a goapp app for #{application} - restricted to layers: #{node[:deploy][application][:layers] || '<any>'}")
     next
   end
