@@ -1,4 +1,4 @@
-/srv/www/apiv2/shared/log/apiv2.log {
+<%= @deploy_to %>/shared/log/<%= @application_name %>.log {
 	daily
 	rotate 7
 	missingok
@@ -6,5 +6,3 @@
 	compress
 	nocreate
 }
-
-

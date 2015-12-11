@@ -49,6 +49,17 @@ define :goapp_deploy_config_and_monit do
     end
   end
 
+  template "/etc/logrotate.d/#{params[:application_name]}" do
+    source   'logrotate.erb'
+    owner    params[:user]
+    group    params[:group]
+    mode     '0751'
+    variables(
+        :deploy_to        => params[:deploy_to],
+        :application_name => params[:application_name]
+    )
+  end
+
   bash "set up go application to use ports 80 and 443" do
     user "root"
     cwd "/tmp"
