@@ -1,8 +1,8 @@
 <%= @deploy_to %>/shared/log/<%= @application_name %>.log {
-	daily
-	rotate 7
+	su deploy
+	rotate 10
+	size 100M
 	missingok
 	notifempty
-	compress
 	nocreate
 }
