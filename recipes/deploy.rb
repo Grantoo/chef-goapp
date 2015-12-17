@@ -2,7 +2,7 @@
 node[:deploy].each do |application, _|
     Chef::Log.info("\n\n")
     Chef::Log.info("application: #{application}")
-    Chef::Log.info("node[:deploy][application] #{node[:deploy][application].inspect}")
+    Chef::Log.info("node[:deploy] #{node[:deploy].inspect}")
     Chef::Log.info("node[:opsworks][:instance] #{node[:opsworks][:instance].inspect}")
     Chef::Log.info("\n\n")
   is_goapp = node[:deploy][application][:application_type] == 'goapp'
