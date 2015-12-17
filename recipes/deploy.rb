@@ -1,11 +1,12 @@
 
 node[:deploy].each do |application, _|
-  if node[:deploy][application][:application_type] != 'goapp' ||
-      ( node[:deploy][application][:layers] && node[:opsworks][:instance][:layers].count == 0 )
-    Chef::Log.debug("Skipping goapp::deploy for application #{application} as it is not set as a goapp app for #{application} - restricted to layers: #{node[:deploy][application][:layers] || '<any>'}")
+  is_goapp = node[:deploy][application][:application_type] == 'goapp'
+  instance_is_proper_layer = node[:deploy][application][:layers].any? {|app_layer| node[:opsworks][:instance][:layers].include?(app_layer)}
+  if  !is_goapp || !instance_is_proper_layer
+          Chef::Log.debug("Skipping goapp::deploy for application #{application} as it is not set as a goapp app for #{application} - restricted to layers: #{node[:deploy][application][:layers] || '<any>'}")
     next
   end
-  
+
   goapp_deploy_dir do
     user    node[:deploy][application][:user]
     group   node[:deploy][application][:group]
