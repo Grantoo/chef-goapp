@@ -1,12 +1,7 @@
 
 node[:deploy].each do |application, _|
-    Chef::Log.info("\n\n")
-    Chef::Log.info("application: #{application}")
-    Chef::Log.info("node[:deploy] #{node[:deploy].inspect}")
-    Chef::Log.info("node[:opsworks][:instance] #{node[:opsworks][:instance].inspect}")
-    Chef::Log.info("\n\n")
   is_goapp = node[:deploy][application][:application_type] == 'goapp'
-  instance_is_proper_layer = node[:deploy][application][:layers].any? {|app_layer| node[:opsworks][:instance][:layers].include?(app_layer)}
+  instance_is_proper_layer = node[:deploy][application][:layers] && node[:deploy][application][:layers].any? {|app_layer| node[:opsworks][:instance][:layers].include?(app_layer)}
   if  !is_goapp || !instance_is_proper_layer
           Chef::Log.debug("Skipping goapp::deploy for application #{application} as it is not set as a goapp app for #{application} - restricted to layers: #{node[:deploy][application][:layers] || '<any>'}")
     next
