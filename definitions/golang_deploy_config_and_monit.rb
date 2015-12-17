@@ -64,7 +64,7 @@ define :goapp_deploy_config_and_monit do
     user "root"
     cwd "/tmp"
     code <<-EOH
-      setcap 'cap_net_bind_service=+ep' #{params[:deploy_to]}/current/bin/goapp_#{params[:application_name]}_server
+      setcap 'cap_net_bind_service=+ep' $(readlink -f #{params[:deploy_to]}/current/bin/goapp_#{params[:application_name]}_server)
     EOH
   end
   
