@@ -1,8 +1,9 @@
 <%= @deploy_to %>/shared/log/<%= @application_name %>.log {
-	su deploy
-	rotate 10
+	su deploy www-data
+	rotate 5
 	size 100M
 	missingok
 	notifempty
 	nocreate
+	compress
 }

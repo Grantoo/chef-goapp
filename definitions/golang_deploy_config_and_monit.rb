@@ -51,9 +51,9 @@ define :goapp_deploy_config_and_monit do
 
   template "/etc/logrotate.d/#{params[:application_name]}" do
     source   'logrotate.erb'
-    owner    params[:user]
-    group    params[:group]
-    mode     '0751'
+    owner    'root'
+    group    'root'
+    mode     '0644'
     variables(
         :deploy_to        => params[:deploy_to],
         :application_name => params[:application_name]
