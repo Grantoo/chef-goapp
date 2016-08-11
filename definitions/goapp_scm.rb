@@ -132,7 +132,7 @@ define :goapp_scm do
             export PATH=$PATH:#{node['go']['install_dir']}/go/bin
             GOPATH=#{release_path}/.go/ go get github.com/kr/godep
             GOPATH=#{release_path}/.go/ #{release_path}/.go/bin/godep get
-            GOPATH=#{release_path}/.go/:#{release_path}/.go/src #{release_path}/.go/bin/godep go build -o #{release_path}/bin/goapp_#{application}_server #{gofile}
+            GOPATH=#{release_path}/.go/:#{release_path}/.go/src #{release_path}/.go/bin/godep go build -o #{release_path}/bin/goapp_#{application}_server .
           EOH
           
           Chef::Log.info("Compiling goapp via: `#{script}`")
